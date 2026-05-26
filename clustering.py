@@ -48,13 +48,6 @@ def hitung_centroid_baru(data, labels, k):
         centroids_baru.append([rata_rata(anggota_x), rata_rata(anggota_y), rata_rata(anggota_z)])
     return centroids_baru
 
-def hitung_inertia(data, labels, centroids):
-    """Hitung total jarak kuadrat semua titik ke centroidnya."""
-    total = 0
-    for i in range(len(data)):
-        total += jarak_euclidean(data[i], centroids[labels[i]]) ** 2
-    return total
-
 
 # 1. BACA DATA DARI EXCEL → DATAFRAME
 df = pd.read_excel(r'C:\Users\Lioo\Documents\Matfor\Proyek\Respons_kuesioner_Matfor.xlsx', 'Form Responses 1')
