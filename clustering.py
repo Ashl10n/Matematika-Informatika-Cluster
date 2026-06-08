@@ -6,7 +6,7 @@ import pandas as pd                          # membaca file Excel
 import matplotlib.pyplot as plt              # membuat grafik
 from mpl_toolkits.mplot3d import Axes3D      # grafik 3D
 
-SEP = "─" * 60
+SEP = "-" * 60
 SEP2 = "=" * 60
 
 # Membaca data dari file Excel
@@ -232,6 +232,10 @@ def hitung_centroid_baru(data, labels, k):
 
 # --- Jalankan K-Means ---
 
+print("\n" + SEP2)
+print("PROSES ITERASI K-MEANS")
+print(SEP2)
+
 labels_lama = None
 
 for it in range(MAX_ITER):
@@ -241,9 +245,22 @@ for it in range(MAX_ITER):
     # Hitung centroid baru
     centroids_baru = hitung_centroid_baru(data_scaled, labels_baru, k)
 
+    # Tampilkan nilai centroid dan jumlah responden pada iterasi ini
+    print(f"\nIterasi {it + 1}:")
+    for c in range(k):
+        # Konversi kembali centroid dari skala [0, 1] ke skala asli [1, 5]
+        c_raw = [
+            centroids_baru[c][j] * (max_data[j] - min_data[j]) + min_data[j]
+            for j in range(3)
+        ]
+        n_anggota = labels_baru.count(c)
+        print(f"  Cluster {c+1} ({n_anggota:02d} responden) -> Centroid (Asli): "
+              f"ChatGPT={c_raw[0]:.4f}, Gemini={c_raw[1]:.4f}, Claude={c_raw[2]:.4f}")
+
     # Jika label tidak berubah → konvergen, berhenti
     if labels_baru == labels_lama:
         centroids = centroids_baru
+        print(f"\n-> Konvergen tercapai pada iterasi ke-{it + 1}!")
         break
 
     labels_lama = labels_baru
